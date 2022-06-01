@@ -25,7 +25,7 @@ jobs:
 
   devDeploy:
     needs: build
-    uses: ./.github/workflows/deploy-template.yml@main
+    uses: ./.github/workflows/deploy-template.yml
     with:
       environment: Development
     secrets:
