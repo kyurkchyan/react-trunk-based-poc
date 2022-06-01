@@ -9,7 +9,6 @@ on:
 
 jobs:
   deployment:
-    name: ${{ inputs.environment }} deployment
     runs-on: ubuntu-latest
     steps:
       - name: Download website

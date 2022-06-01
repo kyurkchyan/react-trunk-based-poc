@@ -24,6 +24,7 @@ jobs:
           path: website
 
   devDeploy:
+    name: "Development Deployment"
     needs: build
     uses: ./.github/workflows/deploy-template.yml
     with:
