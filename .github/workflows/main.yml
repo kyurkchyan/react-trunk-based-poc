@@ -15,10 +15,8 @@ jobs:
     steps:
 
       - uses: actions/checkout@v3
-#        with:
-#          # This is very important and necessary. Otherwise, the action won't pick up the git tag you assigned
-#          fetch-depth: 0
 
+      # This is very important and necessary. Otherwise, the action won't pick up the git tag you assigned
       - run: git fetch --force --tags
 
       - name: "Generate the package version"
