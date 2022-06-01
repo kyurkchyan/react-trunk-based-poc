@@ -26,9 +26,9 @@ jobs:
   devDeploy:
     needs: build
     uses: ./.github/workflows/deploy-template.yml@main
-      with:
-        environment: Development
-      secrets:
-        envPAT: ${{ secrets.envPAT }}
+    with:
+      environment: Development
+    secrets:
+      envPAT: ${{ secrets.envPAT }}
 
 
