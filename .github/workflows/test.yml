@@ -1,0 +1,57 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [che/deploy]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+
+      - name: Install dependencies & build
+        run: |
+          yarn install
+          yarn build
+
+      - name: Publish website artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: trunk-based-website
+          path: ./build/
+
+  devDeploy:
+    name: "Development Deployment"
+    needs: build
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      environment: Development
+
+  stagingDeploy:
+    name: "Staging Deployment"
+    needs: devDeploy
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      environment: Staging
+
+  productionDeploy:
+    name: "Production Deployment"
+    needs: stagingDeploy
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      environment: Production
+
+
