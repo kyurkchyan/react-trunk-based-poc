@@ -1,0 +1,50 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Publish website artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: trunk-based-website
+          path: website
+
+      - name: replace_envs
+        uses: franzbischoff/replace_envs@v1
+
+  devDeploy:
+    name: Development deployment
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Download website
+        uses: actions/download-artifact@v3
+        with:
+          name: trunk-based-website
+
+      - uses: franzbischoff/replace_envs@v1
+        env:
+          ENVIRONMENT: Development
+        with:
+          from_file: 'trunk-based-website/index.html'
+          to_file: 'trunk-based-website/index.html'
+          commit: 'true'
+
+      - shell: bash
+        run: cat 'trunk-based-website/index.html'
