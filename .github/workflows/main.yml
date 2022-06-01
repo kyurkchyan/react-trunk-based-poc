@@ -34,6 +34,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: trunk-based-website
+          path: trunk-based-website
 
       - uses: franzbischoff/replace_envs@v1
         env:
