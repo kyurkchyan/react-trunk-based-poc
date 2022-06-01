@@ -32,14 +32,14 @@ jobs:
 
   stagingDeploy:
     name: "Staging Deployment"
-    needs: build
+    needs: devDeploy
     uses: ./.github/workflows/deploy-template.yml
     with:
       environment: Staging
 
   productionDeploy:
     name: "Production Deployment"
-    needs: build
+    needs: stagingDeploy
     uses: ./.github/workflows/deploy-template.yml
     with:
       environment: Production
