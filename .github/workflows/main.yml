@@ -24,25 +24,11 @@ jobs:
           path: website
 
   devDeploy:
-    name: Development deployment
     needs: build
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/deploy-template.yml@main
+      with:
+        environment: Development
+      secrets:
+        envPAT: ${{ secrets.envPAT }}
 
-    steps:
 
-      - name: Download website
-        uses: actions/download-artifact@v3
-        with:
-          name: trunk-based-website
-          path: trunk-based-website
-
-      - uses: franzbischoff/replace_envs@v1
-        env:
-          ENVIRONMENT: Development
-        with:
-          from_file: 'trunk-based-website/index.html'
-          to_file: 'trunk-based-website/index.html'
-          commit: 'true'
-
-      - shell: bash
-        run: cat 'trunk-based-website/index.html'

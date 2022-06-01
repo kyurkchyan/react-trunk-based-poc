@@ -1,0 +1,30 @@
+name: Trunk-based Website deployment
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  deployment:
+    name: ${{ inputs.environment }} deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download website
+        uses: actions/download-artifact@v3
+        with:
+          name: trunk-based-website
+          path: trunk-based-website
+
+      - uses: franzbischoff/replace_envs@v1
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+        with:
+          from_file: 'trunk-based-website/index.html'
+          to_file: 'trunk-based-website/index.html'
+          commit: 'true'
+
+      - shell: bash
+        run: cat 'trunk-based-website/index.html'
