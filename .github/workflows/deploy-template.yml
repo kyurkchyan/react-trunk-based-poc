@@ -1,0 +1,40 @@
+name: Trunk-based Website deployment
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      packageVersion:
+        required: true
+        type: string
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - run:  env
+
+      - name: Download website
+        uses: actions/download-artifact@v3
+        with:
+          name: trunk-based-website
+          path: trunk-based-website
+
+      - name: Download website configs
+        uses: actions/download-artifact@v3
+        with:
+          name: trunk-based-website-configs
+          path: trunk-based-website-configs
+
+      - shell: bash
+        run: |
+          environmentLower=$(echo "${{ inputs.environment }}" |  tr '[:upper:]' '[:lower:]')
+          cp -fr "trunk-based-website-configs/config.$environmentLower.js" 'trunk-based-website/config.js'
+
+      - name: Publish ${{ inputs.environment }}-${{ inputs.packageVersion }} website artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: trunk-based-website-${{ inputs.environment }}-${{ inputs.packageVersion }}
+          path: ./trunk-based-website
