@@ -30,4 +30,18 @@ jobs:
     with:
       environment: Development
 
+  stagingDeploy:
+    name: "Staging Deployment"
+    needs: build
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      environment: Staging
+
+  productionDeploy:
+    name: "Production Deployment"
+    needs: build
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      environment: Production
+
 
