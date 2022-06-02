@@ -7,9 +7,6 @@ on:
       packageVersion:
         required: true
         type: string
-      minify:
-        required: true
-        type: boolean
 
 jobs:
   deployment:
