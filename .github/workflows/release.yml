@@ -12,14 +12,6 @@ jobs:
     with:
       generateVersion: true
 
-  devDeploy:
-    name: "Development Deployment"
-    needs: build
-    uses: ./.github/workflows/deploy-template.yml
-    with:
-      environment: Development
-      packageVersion: ${{needs.build.outputs.packageVersion}}
-
   devAutomation:
     name: Development environment automation
     needs: devDeploy

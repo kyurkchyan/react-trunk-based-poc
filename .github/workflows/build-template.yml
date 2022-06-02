@@ -17,6 +17,7 @@ jobs:
 
       # This is very important and necessary. Otherwise, the action won't pick up the git tag you assigned
       - run: git fetch --force --tags
+        if: ${{ inputs.generateVersion }}
 
       - name: "Generate the package version"
         if: ${{ inputs.generateVersion }}
@@ -27,6 +28,7 @@ jobs:
 
       - uses: franzbischoff/replace_envs@v1
         name: "Replace the version inside the package.json"
+        if: ${{ inputs.generateVersion }}
         with:
           from_file: 'package.json'
           to_file: 'package.json'
