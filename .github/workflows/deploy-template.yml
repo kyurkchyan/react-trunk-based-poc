@@ -1,4 +1,3 @@
-name: Trunk-based Website deployment
 on:
   workflow_call:
     inputs:
@@ -8,13 +7,15 @@ on:
       packageVersion:
         required: true
         type: string
+      minify:
+        required: true
+        type: boolean
 
 jobs:
   deployment:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - run:  env
 
       - name: Download website
         uses: actions/download-artifact@v3

@@ -7,55 +7,8 @@ on:
 
 jobs:
   build:
-    name: Build & Test
-    runs-on: ubuntu-latest
-    outputs:
-      packageVersion: ${{ steps.packageVersion.outputs.packageVersion }}
-
-    steps:
-
-      - uses: actions/checkout@v3
-
-      # This is very important and necessary. Otherwise, the action won't pick up the git tag you assigned
-      - run: git fetch --force --tags
-
-      - name: "Generate the package version"
-        run: |
-          Version=$(./.github/gitversion.sh)
-          echo "PackageVersion=$Version" >> $GITHUB_ENV
-
-
-      - uses: franzbischoff/replace_envs@v1
-        name: "Replace the version inside the package.json"
-        with:
-          from_file: 'package.json'
-          to_file: 'package.json'
-          commit: 'true'
-
-      - name: Set up Node.js version
-        uses: actions/setup-node@v1
-        with:
-          node-version: '16.x'
-
-      - name: Install dependencies & build
-        run: |
-          yarn install
-          yarn build
-
-      - name: Publish website artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: trunk-based-website
-          path: ./build/
-
-      - name: Publish website configs artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: trunk-based-website-configs
-          path: ./src/configs
-
-      - id: packageVersion
-        run: echo "::set-output name=packageVersion::$PackageVersion"
+    name: "Build & Test"
+    uses: ./.github/workflows/build-template.yml
 
   devDeploy:
     name: "Development Deployment"
