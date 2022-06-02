@@ -65,6 +65,14 @@ jobs:
       environment: Development
       packageVersion: ${{needs.build.outputs.packageVersion}}
 
+  devAutomation:
+    name: Development environment automation
+    needs: devDeploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Automation QA placeholder"
+
   qaDeploy:
     name: "QA Deployment"
     needs: build
@@ -72,6 +80,14 @@ jobs:
     with:
       environment: QA
       packageVersion: ${{needs.build.outputs.packageVersion}}
+
+  qaAutomation:
+    name: QA environment automation
+    needs: qaDeploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Automation QA placeholder"
 
   stagingDeploy:
     name: "Staging Deployment"
@@ -81,6 +97,14 @@ jobs:
       environment: Staging
       packageVersion: ${{needs.build.outputs.packageVersion}}
 
+  stagingAutomation:
+    name: Staging environment automation
+    needs: stagingDeploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Automation QA placeholder"
+
   productionDeploy:
     name: "Production Deployment"
     needs: build
@@ -89,4 +113,11 @@ jobs:
       environment: Production
       packageVersion: ${{needs.build.outputs.packageVersion}}
 
+  productionAutomation:
+    name: Production environment automation
+    needs: productionDeploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Automation QA placeholder"
 
