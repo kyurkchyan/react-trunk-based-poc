@@ -12,14 +12,6 @@ jobs:
     with:
       generateVersion: true
 
-  devAutomation:
-    name: Development environment automation
-    needs: devDeploy
-    runs-on: ubuntu-latest
-
-    steps:
-      - run: echo "Automation QA placeholder"
-
   qaDeploy:
     name: "QA Deployment"
     needs: build

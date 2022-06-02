@@ -18,3 +18,11 @@ jobs:
     with:
       environment: Development
       packageVersion: ${{needs.build.outputs.packageVersion}}
+
+  devAutomation:
+    name: Development environment automation
+    needs: devDeploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Automation QA placeholder"
