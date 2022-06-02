@@ -1,4 +1,4 @@
-VersionTag=$(git describe --abbrev=0)
+VersionTag=$(git describe --abbrev=0 --always)
 
 if [[ $VersionTag == v* ]]
 then
