@@ -1,5 +1,9 @@
 on:
   workflow_call:
+    inputs:
+      generateVersion:
+        required: true
+        type: boolean
 
 jobs:
   build:
@@ -15,6 +19,7 @@ jobs:
       - run: git fetch --force --tags
 
       - name: "Generate the package version"
+        if: ${{ inputs.generateVersion }}
         run: |
           Version=$(./.github/gitversion.sh)
           echo "PackageVersion=$Version" >> $GITHUB_ENV
