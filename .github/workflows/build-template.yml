@@ -44,6 +44,10 @@ jobs:
           yarn install
           yarn build
 
+      - name: Remove Source maps
+        if: ${{ inputs.environment }} == "Production" || ${{ inputs.environment }} == "Stage"
+        run: find . -name "*.js.map" -type f -delete
+        
       - name: Publish website artifact
         uses: actions/upload-artifact@v3
         with:
