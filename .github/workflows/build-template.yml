@@ -12,7 +12,6 @@ jobs:
       packageVersion: ${{ steps.packageVersion.outputs.packageVersion }}
 
     steps:
-
       - uses: actions/checkout@v3
 
       # This is very important and necessary. Otherwise, the action won't pick up the git tag you assigned
@@ -25,24 +24,27 @@ jobs:
           Version=$(./.github/gitversion.sh)
           echo "PackageVersion=$Version" >> $GITHUB_ENV
 
-
       - uses: franzbischoff/replace_envs@v1
         name: "Replace the version inside the package.json"
         if: ${{ inputs.generateVersion }}
         with:
-          from_file: 'package.json'
-          to_file: 'package.json'
-          commit: 'true'
+          from_file: "package.json"
+          to_file: "package.json"
+          commit: "true"
 
       - name: Set up Node.js version
         uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: "16.x"
 
       - name: Install dependencies & build
         run: |
           yarn install
           yarn build
+
+      - name: Remove Source maps
+        if: ${{ inputs.environment }} == "Production" || ${{ inputs.environment }} == "Staging"
+        run: find . -name "*.js.map" -type f -delete
 
       - name: Publish website artifact
         uses: actions/upload-artifact@v3
